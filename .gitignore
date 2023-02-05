@@ -14,6 +14,7 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
+############## Client ##################
 # nyc test coverage
 client/nyc_output
 
@@ -37,8 +38,17 @@ client/next
 
 client/.eslintrc.json
 
+#Localpm
+client/localhost.pem
+client/localhost-key.pem
 
-# server side
+#.next
+client/.next
+
+# Vs Code
+client/.vscode/settings.json
+
+########## server side #################
 server/node_modules
 server/node_modules
 server/package-lock.json
