@@ -1,8 +1,6 @@
 # simple_chat_app-
 
-# simple_chat_app-
-
-##Build Environment
+## Build Environment
 
 ###### Frontend
 
