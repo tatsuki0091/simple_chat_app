@@ -15,39 +15,42 @@ lib-cov
 coverage
 
 # nyc test coverage
-./client/nyc_output
+client/nyc_output
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
-./client/grunt
+client/grunt
 
 # node-waf configuration
-./client/lock-wscript
+client/lock-wscript
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
-./client/build/Release
+client/build/Release
 
 # Dependency directories
-./client/node_modules
-./client/jspm_packages
+client/node_modules
+client/jspm_packages
 
 
 # Optional REPL history
-./client/node_repl_history
-./client/next
+client/node_repl_history
+client/next
+
+client/.eslintrc.json
 
 
 # server side
-./server/node_modules
-./server/package-lock.json
+server/node_modules
+server/node_modules
+server/package-lock.json
 *.log
 *.gz
 
 # Coveralls
-./server/nyc_output
-./server/coverage
-./server/.env
+server/nyc_output
+server/coverage
+server/.env
 # Benchmarking
-./server/benchmarks/graphs
+server/benchmarks/graphs
 
 # ignore additional files using core.excludesFile
 # https://git-scm.com/docs/gitignore
