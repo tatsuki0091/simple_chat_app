@@ -23,12 +23,12 @@ services:
   mongo:
     image: mongo:latest
     # environment:  // If Mongo Authorization is need to be enabled
-    #   MONGO_INITDB_ROOT_USERNAME: root
-    #   MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    # MONGO_INITDB_ROOT_USERNAME: root
+    # MONGO_INITDB_ROOT_PASSWORD: rootpassword
     volumes:
       - data-volume:/data/db
     ports:
-      - "27017:27017"
+      - "28017:28017"
     networks:
       - app-network
   client:
@@ -37,14 +37,14 @@ services:
       dockerfile: Dockerfile
     image: simple-chat-app-client
     container_name: simple_chat_app_client
-    command: npm run start
+    command: yarn dev
     volumes:
       - ./client/:/usr/app
       - /usr/app/node_modules
     depends_on:
       - server
     ports:
-      - "3000:3000"
+      - "3010:3010"
     networks:
       - app-network
 
