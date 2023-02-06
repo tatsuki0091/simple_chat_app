@@ -11,6 +11,11 @@ yarn create next-app --typescript
 ```
 
 Install local-ssl-proxy library to connect with SSL
+Create pem file
+
+```
+mkcert localhost
+```
 
 ```
 yarn add local-ssl-proxy
@@ -38,4 +43,10 @@ yarn add express
 yarn add -D typescript @types/node ts-node @types/express
 npx tsc --init
 touch index.ts
+```
+
+Create pem file
+
+```
+mkcert localhost
 ```
