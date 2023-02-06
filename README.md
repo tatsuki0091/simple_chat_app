@@ -50,3 +50,10 @@ Create pem file
 ```
 mkcert localhost
 ```
+
+Add source codes in index.ts
+
+```
+const key = fs.readFileSync("localhost-key.pem", "utf-8");
+const cert = fs.readFileSync("localhost.pem", "utf-8");
+```
