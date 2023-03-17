@@ -18,4 +18,5 @@ EXPOSE 3010
 
 ENV PORT 3010
 
+CMD ["yarn","install"]
 CMD ["yarn","dev:proxy"]
