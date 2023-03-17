@@ -4,7 +4,7 @@ import { useInput } from "../../../hooks/useInput";
 import styles from "./login.module.css";
 
 const Login = () => {
-  const [username, handleUsername, resetUsername] = useInput("");
+  const [email, handleEmail, resetEmail] = useInput("");
   const [password, handlePassword, resetPassword] = useInput("");
   console.log("rendering InputWithLabel");
   return (
@@ -18,15 +18,15 @@ const Login = () => {
                 className="mb-2 block font-bold text-gray-700"
                 htmlFor="username"
               >
-                Username
+                Email Address
               </label>
               <input
                 className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
                 id="username"
                 type="text"
-                placeholder="Username"
-                value={username}
-                onChange={handleUsername}
+                placeholder="Email Address"
+                value={email}
+                onChange={handleEmail}
               />
             </div>
             <div className="mb-4">
