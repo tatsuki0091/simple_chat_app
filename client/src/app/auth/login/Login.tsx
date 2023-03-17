@@ -1,8 +1,12 @@
 "use client";
 import React from "react";
-import "./login.css";
+import { useInput } from "../../../hooks/useInput";
+import styles from "./login.module.css";
 
 const Login = () => {
+  const [username, handleUsername, resetUsername] = useInput("");
+  const [password, handlePassword, resetPassword] = useInput("");
+  console.log("rendering InputWithLabel");
   return (
     <>
       <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
@@ -21,6 +25,8 @@ const Login = () => {
                 id="username"
                 type="text"
                 placeholder="Username"
+                value={username}
+                onChange={handleUsername}
               />
             </div>
             <div className="mb-4">
@@ -34,6 +40,8 @@ const Login = () => {
                 className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
                 id="password"
                 type="password"
+                value={password}
+                onChange={handlePassword}
                 placeholder="Password"
               />
             </div>
