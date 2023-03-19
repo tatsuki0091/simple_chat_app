@@ -97,3 +97,7 @@ Execute
 ```
 docker compose up
 ```
+
+Reference Link
+UI/UX chat:
+https://devsenv.com/tutorials/how-to-design-a-beautiful-messenger-application-chat-ui-using-tailwind-css
