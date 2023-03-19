@@ -83,9 +83,21 @@ Create pem file
 mkcert localhost
 ```
 
+Execute the command above, and put localhost-key.pem and localhost.pem in server directory and client directory
+
 Add source codes in index.ts
 
 ```
 const key = fs.readFileSync("localhost-key.pem", "utf-8");
 const cert = fs.readFileSync("localhost.pem", "utf-8");
 ```
+
+Execute
+
+```
+docker compose up
+```
+
+Reference Link
+UI/UX chat
+https://devsenv.com/tutorials/how-to-design-a-beautiful-messenger-application-chat-ui-using-tailwind-css
