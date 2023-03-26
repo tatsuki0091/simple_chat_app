@@ -78,14 +78,19 @@ services:
     networks:
       - app-network
   mongo:
-    image: mongo:latest
-    # environment:  // If Mongo Authorization is need to be enabled
-    # MONGO_INITDB_ROOT_USERNAME: root
-    # MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    image: mongo
+    build:
+      context: ./mongodb
+    restart: always
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootPassXXX
+      MONGO_INITDB_DATABASE: admin
     volumes:
-      - data-volume:/data/db
+      - ./mongodb/initdb.d:/docker-entrypoint-initdb.d
+      - ./mongodb/data:/data/db
     ports:
-      - "28017:28017"
+      - "27017:27017"
     networks:
       - app-network
   client:
