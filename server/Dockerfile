@@ -8,14 +8,23 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install Dependencies
-COPY package*.json ./
+COPY package.json /usr/src/app/
+RUN yarn install
 
-RUN yarn
+COPY yarn.lock /usr/src/app/
+
 
 # Copy app source code
-COPY . .
+COPY . /usr/src/app
+
+
+# # RUN yarn
+# RUN yarn build
+
+
+
 
 # Exports
 EXPOSE 8080
 
-CMD ["yarn","nodemon","index.ts"]
+CMD ["yarn","dev"]

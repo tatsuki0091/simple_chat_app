@@ -64,10 +64,11 @@ services:
       dockerfile: Dockerfile
     image: simple-chat-app-server
     container_name: simple_chat_app_server
-    command: yarn nodemon index.ts
     volumes:
-      - ./server/:/usr/src/app
+      - ./server:/usr/src/app
       - /usr/src/app/node_modules
+      # - ./serve/node-modules:/usr/src/app/node_modules
+    command: yarn dev
     ports:
       - "8080:8080"
     depends_on:
