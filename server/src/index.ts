@@ -1,4 +1,6 @@
+import { connectDB } from "./config/DatabaseConfig";
 import express, { Application, Request, Response } from "express";
+
 require("dotenv").config();
 const fs = require("fs");
 const https = require("https");
@@ -18,4 +20,5 @@ app.get("/", async (_req: Request, res: Response) => {
   });
 });
 
+connectDB();
 https.createServer({ key, cert }, app).listen(PORT);
