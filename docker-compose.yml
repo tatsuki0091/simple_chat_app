@@ -64,10 +64,11 @@ services:
       dockerfile: Dockerfile
     image: simple-chat-app-server
     container_name: simple_chat_app_server
-    command: yarn nodemon index.ts
     volumes:
-      - ./server/:/usr/src/app
+      - ./server:/usr/src/app
       - /usr/src/app/node_modules
+      # - ./serve/node-modules:/usr/src/app/node_modules
+    command: yarn dev
     ports:
       - "8080:8080"
     depends_on:
@@ -78,14 +79,19 @@ services:
     networks:
       - app-network
   mongo:
-    image: mongo:latest
-    # environment:  // If Mongo Authorization is need to be enabled
-    # MONGO_INITDB_ROOT_USERNAME: root
-    # MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    image: mongo
+    build:
+      context: ./mongodb
+    restart: always
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootPassXXX
+      MONGO_INITDB_DATABASE: admin
     volumes:
-      - data-volume:/data/db
+      - ./mongodb/initdb.d:/docker-entrypoint-initdb.d
+      - ./mongodb/data:/data/db
     ports:
-      - "28017:28017"
+      - "27017:27017"
     networks:
       - app-network
   client:

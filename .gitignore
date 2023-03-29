@@ -66,6 +66,9 @@ server/benchmarks/graphs
 server/localhost.pem
 server/localhost-key.pem
 
+#mongo
+mongodb
+
 
 # ignore additional files using core.excludesFile
 # https://git-scm.com/docs/gitignore
