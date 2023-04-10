@@ -31,6 +31,8 @@ client/build/Release
 client/node_modules
 client/jspm_packages
 
+# env file
+client/.env.local
 
 # Optional REPL history
 client/node_repl_history
