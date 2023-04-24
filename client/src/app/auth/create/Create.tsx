@@ -2,7 +2,7 @@
 import React from "react";
 import { useInput } from "../../../hooks/useInput";
 import { useForm } from "../../../hooks/useForm";
-import { Submit } from "../../../interfaces/auth";
+import { Submit, CreateUserInterface } from "../../../interfaces/auth";
 
 const Create = () => {
   const url = process.env.NEXT_PUBLIC_API_URL + "/user/create";
@@ -10,10 +10,18 @@ const Create = () => {
   const [username, handleUsername, resetUsername] = useInput("");
   const [email, handleEmail, resetEmail] = useInput("");
   const [password, handlePassword, resetPassword] = useInput("");
-  const userInfo = { username: username, email: email, password: password };
+
   const sendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const userInfo: CreateUserInterface = {
+      username: username,
+      email: email,
+      password: password,
+      created: new Date(),
+    };
     const apiResponse = await useForm({ values: userInfo, url: url });
+    console.log(apiResponse);
+    resetUsername();
     resetEmail();
     resetPassword();
   };
