@@ -2,16 +2,16 @@
 import React from "react";
 import { useInput } from "../../../hooks/useInput";
 import { useForm } from "../../../hooks/useForm";
-import { Submit, CreateUserInterface } from "../../../interfaces/auth";
+import { CreateUserInterface } from "../../../interfaces/auth";
+import { POST } from "../../../helpers/constants";
 
 const Create = () => {
-  const url = process.env.NEXT_PUBLIC_API_URL + "/user/create";
-  console.log(url);
+  const url = "/user/create";
   const [username, handleUsername, resetUsername] = useInput("");
   const [email, handleEmail, resetEmail] = useInput("");
   const [password, handlePassword, resetPassword] = useInput("");
 
-  const sendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
+  const sendCreateRequest = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const userInfo: CreateUserInterface = {
       username: username,
@@ -19,7 +19,11 @@ const Create = () => {
       password: password,
       created: new Date(),
     };
-    const apiResponse = await useForm({ values: userInfo, url: url });
+    const apiResponse = await useForm({
+      values: userInfo,
+      url: url,
+      httpMethod: POST,
+    });
     console.log(apiResponse);
     resetUsername();
     resetEmail();
@@ -30,7 +34,7 @@ const Create = () => {
       <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
         <div className="rounded-lg bg-white p-12 shadow-lg">
           <h2 className="mb-4 text-2xl font-bold">Register</h2>
-          <form onSubmit={sendRequest}>
+          <form onSubmit={sendCreateRequest}>
             <div className="mb-4">
               <label
                 className="mb-2 block font-bold text-gray-700"

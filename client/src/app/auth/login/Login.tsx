@@ -3,17 +3,21 @@ import React from "react";
 // import styles from "./login.module.css";
 import { useInput } from "../../../hooks/useInput";
 import { useForm } from "../../../hooks/useForm";
-import { Submit } from "../../../interfaces/auth";
+import { LoginInterface } from "../../../interfaces/auth";
+import { POST } from "../../../helpers/constants";
 
 const Login = () => {
-  const url = process.env.API_URL + "/user/login";
   const [email, handleEmail, resetEmail] = useInput("");
   const [password, handlePassword, resetPassword] = useInput("");
-  const userInfo = { email: email, password: password };
   const sendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const apiResponse = await useForm({ values: userInfo, url: url });
-    console.log(apiResponse);
+    const url = "/user/login";
+    const userInfo: LoginInterface = { email: email, password: password };
+    const apiResponse = await useForm({
+      values: userInfo,
+      url: url,
+      httpMethod: POST,
+    });
     resetEmail();
     resetPassword();
   };
