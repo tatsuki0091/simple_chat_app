@@ -4,9 +4,12 @@ import { useInput } from "../../../hooks/useInput";
 import { ResetPasswordInterface } from "../../../interfaces/auth";
 import { useForm } from "../../../hooks/useForm";
 import { PATCH } from "../../../helpers/constants";
+import { useRouter } from "next/navigation";
 
 const ResetPassword = () => {
   const [email, handleEmail, resetEmail] = useInput("");
+  const [errorMessage, setErrorMessage, resetErrorMessage] = useInput("");
+  const { push } = useRouter();
   const resetPasswordRequest = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
@@ -22,7 +25,14 @@ const ResetPassword = () => {
         url: url,
         httpMethod: PATCH,
       });
-      resetEmail();
+      if (apiResponse.status === 200 && apiResponse.data.pass) {
+        console.log(apiResponse);
+        resetEmail();
+        resetErrorMessage();
+        push("/auth/login");
+      } else {
+        setErrorMessage(apiResponse.data.message);
+      }
     } catch (error) {
       console.error(`Failed to reset your password: ${error}`);
       throw new Error(`Failed to reset your password: ${error}`);
@@ -57,6 +67,7 @@ const ResetPassword = () => {
               Reset Password
             </button>
           </form>
+          <h3>{errorMessage}</h3>
         </div>
       </div>
     </>
