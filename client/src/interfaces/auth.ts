@@ -1,7 +1,12 @@
-export interface Submit {
-  submit: string;
-  label: string;
-  url: string;
+// export interface Submit {
+//   submit: string;
+//   label: string;
+//   url: string;
+// }
+
+export interface LoginInterface {
+  email: string;
+  password: string;
 }
 
 export interface CreateUserInterface {
@@ -9,4 +14,9 @@ export interface CreateUserInterface {
   email: string;
   password: string;
   created: Date;
+}
+
+export interface ResetPasswordInterface {
+  email: string;
+  updated: Date;
 }

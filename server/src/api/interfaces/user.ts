@@ -10,3 +10,8 @@ export interface ResetPassword {
   password: string;
   updated: Date;
 }
+
+export interface Login {
+  email: string;
+  password: string;
+}
