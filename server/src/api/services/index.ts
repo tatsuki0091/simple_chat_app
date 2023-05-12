@@ -1,4 +1,4 @@
-import { Model, Document } from "mongoose";
+import { Model, Document, FilterQuery } from "mongoose";
 
 // Curry argument type
 // export const save =
@@ -15,14 +15,14 @@ import { Model, Document } from "mongoose";
 //   };
 
 // Normal type
-export const save = async <T extends Document>(
+export const create = async <T extends Document>(
   model: Model<T>,
   data: Object
 ) => {
-  const instance = new model(data);
+  // const instance = new model(data);
   try {
-    await instance.save();
-    return instance;
+    const createReponse = await model.create(data);
+    return createReponse;
   } catch (error) {
     console.error(`Failed to save document: ${error}`);
     throw new Error(`Failed to save document: ${error}`);
@@ -30,14 +30,28 @@ export const save = async <T extends Document>(
 };
 
 // Normal type
-export const update = async <T extends Document>(
+export const findOne = async <T extends Document>(
   model: Model<T>,
+  query: object
+) => {
+  try {
+    const findOneResponse = await model.findOne(query);
+    return findOneResponse;
+  } catch (error) {
+    console.error(`Failed to fetch document: ${error}`);
+    throw new Error(`Failed to fetch document: ${error}`);
+  }
+};
+
+// Update one data
+export const findOneAndUpdate = async <T extends Document>(
+  model: Model<T>,
+  filter: FilterQuery<T>,
   data: Object
 ) => {
-  const instance = new model(data);
   try {
-    await instance.findOneAndUpdate();
-    return instance;
+    const updateReponse = await model.findOneAndUpdate(filter, data);
+    return updateReponse;
   } catch (error) {
     console.error(`Failed to save document: ${error}`);
     throw new Error(`Failed to save document: ${error}`);

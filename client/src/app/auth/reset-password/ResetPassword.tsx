@@ -7,8 +7,8 @@ import { PATCH } from "../../../helpers/constants";
 import { useRouter } from "next/navigation";
 
 const ResetPassword = () => {
-  const [email, handleEmail, resetEmail] = useInput("");
-  const [errorMessage, setErrorMessage, resetErrorMessage] = useInput("");
+  const [email, , handleEmail, resetEmail] = useInput("");
+  const [errorMessage, setErrorMessage, , resetErrorMessage] = useInput("");
   const { push } = useRouter();
   const resetPasswordRequest = async (
     event: React.FormEvent<HTMLFormElement>
@@ -25,11 +25,16 @@ const ResetPassword = () => {
         url: url,
         httpMethod: PATCH,
       });
-      if (apiResponse.status === 200 && apiResponse.data.pass) {
-        console.log(apiResponse);
-        resetEmail();
-        resetErrorMessage();
-        push("/auth/login");
+      if (apiResponse.status === 200) {
+        if (apiResponse.data.pass) {
+          resetEmail();
+          resetErrorMessage();
+          push("/auth/login");
+        } else {
+          setErrorMessage(
+            "Currently not available to reset password. Please try later"
+          );
+        }
       } else {
         setErrorMessage(apiResponse.data.message);
       }
@@ -44,22 +49,20 @@ const ResetPassword = () => {
         <div className="rounded-lg bg-white p-12 shadow-lg">
           <h2 className="mb-4 text-2xl font-bold">Reset Passwprd</h2>
           <form onSubmit={resetPasswordRequest}>
-            <div className="mb-4">
-              <label
-                className="mb-2 block font-bold text-gray-700"
-                htmlFor="username"
-              >
-                Email Address
-              </label>
-              <input
-                className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
-                id="username"
-                type="text"
-                placeholder="Email Address"
-                value={email}
-                onChange={handleEmail}
-              />
-            </div>
+            <label
+              className="mb-2 block font-bold text-gray-700"
+              htmlFor="username"
+            >
+              Email Address
+            </label>
+            <input
+              className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
+              id="username"
+              type="text"
+              placeholder="Email Address"
+              value={email}
+              onChange={handleEmail}
+            />
             <button
               className="focus:shadow-outline w-full rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 focus:outline-none"
               type="submit"
@@ -67,7 +70,7 @@ const ResetPassword = () => {
               Reset Password
             </button>
           </form>
-          <h3>{errorMessage}</h3>
+          <p className="whitespace-normal">{errorMessage}</p>
         </div>
       </div>
     </>

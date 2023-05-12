@@ -5,7 +5,7 @@ export const mailInstance = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: process.env.DB,
-    pass: process.env.HOST_MAIL,
+    user: process.env.HOST_MAIL,
+    pass: process.env.GOOGLE_APP_PASSWORD,
   },
 });

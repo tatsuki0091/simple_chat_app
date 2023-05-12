@@ -1,17 +1,18 @@
-import { useState, useCallback } from "react";
+import { useState, Dispatch, useCallback } from "react";
 
-type UseInputReturnType = [
-  string,
+type UseInputReturnType<T> = [
+  T,
+  Dispatch<React.SetStateAction<T>>,
   (event: React.ChangeEvent<HTMLInputElement>) => void,
   () => void
 ];
 
-export const useInput = (initialValue: string): UseInputReturnType => {
+export const useInput = <T>(initialValue: T): UseInputReturnType<T> => {
   const [value, setValue] = useState(initialValue);
 
   const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(event.target.value);
+    <U extends T>(event: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(event.target.value as U);
     },
     []
   );
@@ -20,5 +21,5 @@ export const useInput = (initialValue: string): UseInputReturnType => {
     setValue(initialValue);
   };
 
-  return [value, handleChange, reset];
+  return [value, setValue, handleChange, reset];
 };
