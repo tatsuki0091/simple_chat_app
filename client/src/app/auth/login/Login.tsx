@@ -4,6 +4,7 @@ import { useInput } from "../../../hooks/useInput";
 import { useForm } from "../../../hooks/useForm";
 import { LoginInterface } from "../../../interfaces/auth";
 import { POST } from "../../../helpers/constants";
+import Link from "next/link";
 
 const Login = () => {
   const [email, , handleEmail, resetEmail] = useInput("");
@@ -33,7 +34,7 @@ const Login = () => {
               Email Address
             </label>
             <input
-              className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
+              className="focus:shadow-outline mb-4 w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
               id="username"
               type="text"
               placeholder="Email Address"
@@ -47,7 +48,7 @@ const Login = () => {
               Password
             </label>
             <input
-              className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
+              className="focus:shadow-outline mb-4 w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
               id="password"
               type="password"
               value={password}
@@ -61,6 +62,22 @@ const Login = () => {
               Login
             </button>
           </form>
+          <div className="mt-4 w-full">
+            <Link
+              className="flex justify-center text-blue-600 visited:text-blue-600 hover:text-purple-800"
+              href="/auth/reset-password"
+            >
+              Reset Password
+            </Link>
+          </div>
+          <div className="mt-4 w-full">
+            <Link
+              className="flex justify-center text-blue-600 visited:text-blue-600 hover:text-purple-800"
+              href="/auth/create"
+            >
+              Register
+            </Link>
+          </div>
         </div>
       </div>
     </>

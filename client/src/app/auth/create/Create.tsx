@@ -4,12 +4,13 @@ import { useInput } from "../../../hooks/useInput";
 import { useForm } from "../../../hooks/useForm";
 import { CreateUserInterface } from "../../../interfaces/auth";
 import { POST } from "../../../helpers/constants";
+import Link from "next/link";
 
 const Create = () => {
   const url = "/user/create";
-  const [username, handleUsername, resetUsername] = useInput("");
-  const [email, handleEmail, resetEmail] = useInput("");
-  const [password, handlePassword, resetPassword] = useInput("");
+  const [username, , handleUsername, resetUsername] = useInput("");
+  const [email, , handleEmail, resetEmail] = useInput("");
+  const [password, , handlePassword, resetPassword] = useInput("");
 
   const sendCreateRequest = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -90,6 +91,14 @@ const Create = () => {
               Register
             </button>
           </form>
+          <div className="mt-4 w-full">
+            <Link
+              className="flex justify-center text-blue-600 visited:text-blue-600 hover:text-purple-800"
+              href="/auth/login"
+            >
+              Login
+            </Link>
+          </div>
         </div>
       </div>
     </>
