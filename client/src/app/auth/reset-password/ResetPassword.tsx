@@ -5,6 +5,7 @@ import { ResetPasswordInterface } from "../../../interfaces/auth";
 import { useForm } from "../../../hooks/useForm";
 import { PATCH } from "../../../helpers/constants";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const ResetPassword = () => {
   const [email, , handleEmail, resetEmail] = useInput("");
@@ -64,13 +65,22 @@ const ResetPassword = () => {
               onChange={handleEmail}
             />
             <button
-              className="focus:shadow-outline w-full rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 focus:outline-none"
+              className="focus:shadow-outline mt-4 w-full rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 focus:outline-none"
               type="submit"
             >
               Reset Password
             </button>
           </form>
           <p className="whitespace-normal">{errorMessage}</p>
+
+          <div className="mt-4 w-full">
+            <Link
+              className="flex justify-center text-blue-600 visited:text-blue-600 hover:text-purple-800"
+              href="/auth/login"
+            >
+              Login
+            </Link>
+          </div>
         </div>
       </div>
     </>
