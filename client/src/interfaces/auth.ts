@@ -4,7 +4,7 @@
 //   url: string;
 // }
 
-export interface LoginInterface {
+export interface LoginInterface extends Object {
   email: string;
   password: string;
 }
@@ -19,4 +19,18 @@ export interface CreateUserInterface {
 export interface ResetPasswordInterface {
   email: string;
   updated: Date;
+}
+
+export interface ResetPasswordValidationInterface {
+  email: string;
+}
+
+export interface CreateUserValidationInterface {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface ErrorProps {
+  errors: string[];
 }

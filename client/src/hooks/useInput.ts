@@ -9,7 +9,6 @@ type UseInputReturnType<T> = [
 
 export const useInput = <T>(initialValue: T): UseInputReturnType<T> => {
   const [value, setValue] = useState(initialValue);
-
   const handleChange = useCallback(
     <U extends T>(event: React.ChangeEvent<HTMLInputElement>) => {
       setValue(event.target.value as U);
