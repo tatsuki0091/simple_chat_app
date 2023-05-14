@@ -1,16 +1,21 @@
 import { required, isEmail, passwordLength } from "./index";
 import { REQUIRED, IS_EMAIL, PASSWORD_LENGTH_VALIDATION } from "../constants";
-import { LoginInterface } from "../../interfaces/auth";
+import { CreateUserValidationInterface } from "../../interfaces/auth";
 
-const loginValidateForm = (props: LoginInterface): Array<string> => {
+const createValidateForm = (
+  props: CreateUserValidationInterface
+): Array<string> => {
   //
   const errors: Array<string> = [];
   // required
-  if (required(props.email)) {
-    errors.push("Email" + REQUIRED);
+  if (required(props.username)) {
+    errors.push("Username" + REQUIRED);
   }
   if (required(props.password)) {
     errors.push("Password" + REQUIRED);
+  }
+  if (required(props.email)) {
+    errors.push("Email" + REQUIRED);
   }
 
   // email format
@@ -26,4 +31,4 @@ const loginValidateForm = (props: LoginInterface): Array<string> => {
   return errors;
 };
 
-export default loginValidateForm;
+export default createValidateForm;

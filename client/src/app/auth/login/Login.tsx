@@ -2,33 +2,53 @@ import React from "react";
 // import styles from "./login.module.css";
 import { useInput } from "../../../hooks/useInput";
 import { useForm } from "../../../hooks/useForm";
-import { useValidation } from "../../../hooks/useValidation";
+import { useRouter } from "next/navigation";
 import { LoginInterface } from "../../../interfaces/auth";
 import { POST } from "../../../helpers/constants";
 import loginValidateForm from "../../../validations/auth/login";
+import useValidation from "../../../hooks/useValidation";
+import ErrorMessages from "../../../components/auth/ErrorMessages";
 import Link from "next/link";
 
 const Login = () => {
   const [email, , handleEmail, resetEmail] = useInput("");
   const [password, , handlePassword, resetPassword] = useInput("");
-  const [error, setError] = useValidation([]);
+  const [errors, setError, resetValidation] = useValidation([]);
+  const { push } = useRouter();
   const sendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const userInfo: LoginInterface = { email: email, password: password };
     // Check validation
-    const errors = loginValidateForm(userInfo);
+    const checkErrors = loginValidateForm(userInfo);
     // If there is an error, stop submit
-    if (errors.length > 0) {
-      setError((prevArray) => [...prevArray, ...errors]);
+    if (checkErrors.length > 0) {
+      setError([...checkErrors]);
       return;
     }
-    const apiResponse = await useForm({
-      values: userInfo,
-      url: "/user/login",
-      httpMethod: POST,
-    });
-    resetEmail();
-    resetPassword();
+    try {
+      const apiResponse = await useForm({
+        values: userInfo,
+        url: "/user/login",
+        httpMethod: POST,
+      });
+      if (apiResponse.status === 200) {
+        if (apiResponse.data.pass) {
+          resetEmail();
+          resetPassword();
+          resetValidation();
+          push("/");
+        } else {
+          setError([
+            "Currently not available to reset password. Please try later",
+          ]);
+        }
+      } else {
+        setError((prevArray) => [...prevArray, ""]);
+      }
+    } catch (error) {
+      console.error(`Failed to reset your password: ${error}`);
+      throw new Error(`Failed to reset your password: ${error}`);
+    }
   };
   return (
     <>
@@ -70,7 +90,9 @@ const Login = () => {
             >
               Login
             </button>
-            <p>{error}</p>
+            <div className="mt-4">
+              <ErrorMessages errors={errors} />
+            </div>
           </form>
           <div className="mt-4 w-full">
             <Link

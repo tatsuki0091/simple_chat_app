@@ -2,33 +2,61 @@
 import React from "react";
 import { useInput } from "../../../hooks/useInput";
 import { useForm } from "../../../hooks/useForm";
-import { CreateUserInterface } from "../../../interfaces/auth";
 import { POST } from "../../../helpers/constants";
+import { useRouter } from "next/navigation";
+import createValidateForm from "../../../validations/auth/create";
+import useValidation from "../../../hooks/useValidation";
+import ErrorMessages from "../../../components/auth/ErrorMessages";
 import Link from "next/link";
 
 const Create = () => {
-  const url = "/user/create";
   const [username, , handleUsername, resetUsername] = useInput("");
   const [email, , handleEmail, resetEmail] = useInput("");
   const [password, , handlePassword, resetPassword] = useInput("");
+  const [errors, setError, resetValidation] = useValidation([]);
+  const { push } = useRouter();
 
   const sendCreateRequest = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const userInfo: CreateUserInterface = {
+    // Check validation
+    const checkErrors = createValidateForm({
       username: username,
       email: email,
       password: password,
-      created: new Date(),
-    };
-    const apiResponse = await useForm({
-      values: userInfo,
-      url: url,
-      httpMethod: POST,
     });
-    console.log(apiResponse);
-    resetUsername();
-    resetEmail();
-    resetPassword();
+    // If there is an error, stop submit
+    if (checkErrors.length > 0) {
+      setError([...checkErrors]);
+      return;
+    }
+    try {
+      const apiResponse = await useForm({
+        values: {
+          username: username,
+          email: email,
+          password: password,
+          created: new Date(),
+        },
+        url: "/user/create",
+        httpMethod: POST,
+      });
+      if (apiResponse.status === 200) {
+        if (apiResponse.data.pass) {
+          resetUsername();
+          resetEmail();
+          resetPassword();
+          resetValidation();
+          push("/");
+        } else {
+          setError(["Currently not available. Please try later"]);
+        }
+      } else {
+        setError([apiResponse.data.message]);
+      }
+    } catch (error) {
+      console.error(`Failed to reset your password: ${error}`);
+      throw new Error(`Failed to reset your password: ${error}`);
+    }
   };
   return (
     <>
@@ -90,6 +118,9 @@ const Create = () => {
             >
               Register
             </button>
+            <div className="mt-4">
+              <ErrorMessages errors={errors} />
+            </div>
           </form>
           <div className="mt-4 w-full">
             <Link

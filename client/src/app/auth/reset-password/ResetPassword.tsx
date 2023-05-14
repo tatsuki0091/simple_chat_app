@@ -1,43 +1,50 @@
 "use client";
 import React from "react";
 import { useInput } from "../../../hooks/useInput";
-import { ResetPasswordInterface } from "../../../interfaces/auth";
 import { useForm } from "../../../hooks/useForm";
 import { PATCH } from "../../../helpers/constants";
 import { useRouter } from "next/navigation";
+import ErrorMessages from "../../../components/auth/ErrorMessages";
+import useValidation from "../../../hooks/useValidation";
+import resetPasswordValidateForm from "../../../validations/auth/resetPassword";
 import Link from "next/link";
 
 const ResetPassword = () => {
   const [email, , handleEmail, resetEmail] = useInput("");
-  const [errorMessage, setErrorMessage, , resetErrorMessage] = useInput("");
+  const [errors, setError, resetError] = useValidation([]);
   const { push } = useRouter();
   const resetPasswordRequest = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    const userInfo: ResetPasswordInterface = {
-      email: email,
-      updated: new Date(),
-    };
-    const url = "/user/reset-password";
+    // Check validation
+    const checkErrors = resetPasswordValidateForm({ email: email });
+    // If there is an error, stop submit
+    if (checkErrors.length > 0) {
+      setError([...checkErrors]);
+      return;
+    }
     try {
       const apiResponse = await useForm({
-        values: userInfo,
-        url: url,
+        values: {
+          email: email,
+          updated: new Date(),
+        },
+        url: "/user/reset-password",
         httpMethod: PATCH,
       });
       if (apiResponse.status === 200) {
         if (apiResponse.data.pass) {
           resetEmail();
-          resetErrorMessage();
+          resetError();
           push("/auth/login");
         } else {
-          setErrorMessage(
-            "Currently not available to reset password. Please try later"
-          );
+          setError([
+            "Currently not available to reset password. Please try later",
+          ]);
         }
       } else {
-        setErrorMessage(apiResponse.data.message);
+        setError([apiResponse.data.message]);
       }
     } catch (error) {
       console.error(`Failed to reset your password: ${error}`);
@@ -70,9 +77,10 @@ const ResetPassword = () => {
             >
               Reset Password
             </button>
+            <div className="mt-4">
+              <ErrorMessages errors={errors} />
+            </div>
           </form>
-          <p className="whitespace-normal">{errorMessage}</p>
-
           <div className="mt-4 w-full">
             <Link
               className="flex justify-center text-blue-600 visited:text-blue-600 hover:text-purple-800"

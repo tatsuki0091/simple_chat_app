@@ -20,3 +20,17 @@ export interface ResetPasswordInterface {
   email: string;
   updated: Date;
 }
+
+export interface ResetPasswordValidationInterface {
+  email: string;
+}
+
+export interface CreateUserValidationInterface {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface ErrorProps {
+  errors: string[];
+}

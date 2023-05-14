@@ -2,12 +2,18 @@ import { useState, Dispatch } from "react";
 
 type UseValidateReturnType<T> = [
   string[],
-  Dispatch<React.SetStateAction<string[]>>
+  Dispatch<React.SetStateAction<string[]>>,
+  () => void
 ];
 
-export const useValidation = <T extends object>(
+const useValidation = <T extends object>(
   values: Array<string>
 ): UseValidateReturnType<T> => {
   const [errors, setErrors] = useState<string[]>(values);
-  return [errors, setErrors];
+  const resetValidation = () => {
+    setErrors(values);
+  };
+  return [errors, setErrors, resetValidation];
 };
+
+export default useValidation;
