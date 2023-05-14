@@ -2,20 +2,29 @@ import React from "react";
 // import styles from "./login.module.css";
 import { useInput } from "../../../hooks/useInput";
 import { useForm } from "../../../hooks/useForm";
+import { useValidation } from "../../../hooks/useValidation";
 import { LoginInterface } from "../../../interfaces/auth";
 import { POST } from "../../../helpers/constants";
+import loginValidateForm from "../../../validations/auth/login";
 import Link from "next/link";
 
 const Login = () => {
   const [email, , handleEmail, resetEmail] = useInput("");
   const [password, , handlePassword, resetPassword] = useInput("");
+  const [error, setError] = useValidation([]);
   const sendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const url = "/user/login";
     const userInfo: LoginInterface = { email: email, password: password };
+    // Check validation
+    const errors = loginValidateForm(userInfo);
+    // If there is an error, stop submit
+    if (errors.length > 0) {
+      setError((prevArray) => [...prevArray, ...errors]);
+      return;
+    }
     const apiResponse = await useForm({
       values: userInfo,
-      url: url,
+      url: "/user/login",
       httpMethod: POST,
     });
     resetEmail();
@@ -61,6 +70,7 @@ const Login = () => {
             >
               Login
             </button>
+            <p>{error}</p>
           </form>
           <div className="mt-4 w-full">
             <Link

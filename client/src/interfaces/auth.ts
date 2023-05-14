@@ -4,7 +4,7 @@
 //   url: string;
 // }
 
-export interface LoginInterface {
+export interface LoginInterface extends Object {
   email: string;
   password: string;
 }
