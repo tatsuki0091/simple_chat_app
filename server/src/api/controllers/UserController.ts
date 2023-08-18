@@ -2,15 +2,19 @@ import { RequestHandler } from "express";
 import {
   CreateUser as CreateUserInterface,
   ResetPassword as ResetPasswordInterface,
-  Login as LoginInterface,
+  UserCollection,
 } from "../interfaces/user";
 import {
   createUser as createUserService,
   resetPassword as resetPasswordService,
   login as loginUserService,
 } from "../services/UserService";
-import { encryptPasswordGenerator } from "../helpers/auth";
-import { RESET_PASSWORD_LENGTH, BASE_CHAR } from "../constants/auth";
+import { encryptPasswordGenerator, assertPassword } from "../helpers/auth";
+import {
+  RESET_PASSWORD_LENGTH,
+  BASE_CHAR,
+  INCORRECT_INFO,
+} from "../constants/auth";
 import { mailInstance } from "../helpers/mail";
 import {
   RESET_PASSWORD_SUBJECT,
@@ -19,16 +23,28 @@ import {
 } from "../constants/mail";
 
 export const login: RequestHandler = async (req, res) => {
-  // Encrypt password
-  const encryptPassword: string = await encryptPasswordGenerator(
-    req.body.password
-  );
-  const loginInfo: LoginInterface = {
-    email: req.body.email,
-    password: encryptPassword,
-  };
-  const createResult = await loginUserService(loginInfo);
-  res.json(createResult);
+  const loginResult = await loginUserService(req.body.email);
+  if (loginResult === null) {
+    res.json({ errorMessage: INCORRECT_INFO });
+  } else {
+    // Encrypt password
+    const assertPasswordResponse: boolean = await assertPassword(
+      req.body.password,
+      loginResult.password
+    );
+    if (assertPasswordResponse) {
+      req.session.user = loginResult._id.toString();
+      // req.session.save((err) => {
+      //   if (err) {
+      //     console.log(err);
+      //   } else {
+      //     res.json(loginResult);
+      //   }
+      // });
+    } else {
+      res.json({ errorMessage: "Something wrong. Please try later." });
+    }
+  }
 };
 
 export const createUser: RequestHandler = async (req, res) => {
@@ -42,8 +58,15 @@ export const createUser: RequestHandler = async (req, res) => {
     password: encryptPassword,
     created: req.body.created,
   };
-  const createResult = await createUserService(creatInfo);
-  res.json(createResult);
+  let createResult = await createUserService(creatInfo);
+  if (createResult === null) {
+    res.json({
+      errorMesage:
+        "Your username or email is already used. Please try another information",
+    });
+  } else {
+    res.json(createResult);
+  }
 };
 
 export const resetPassword: RequestHandler = async (req, res) => {

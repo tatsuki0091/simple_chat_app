@@ -6,7 +6,7 @@ import {
 } from "../controllers/UserController";
 const router = express.Router();
 
-router.patch("/login", login);
+router.post("/login", login);
 router.post("/create", createUser);
 router.patch("/reset-password", resetPassword);
 

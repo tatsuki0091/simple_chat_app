@@ -3,13 +3,20 @@ import User from "../models/user";
 import {
   CreateUser as CreateUserInterface,
   ResetPassword as ResetPasswordInterface,
-  Login as LoginInterface,
+  UserCollection,
 } from "../interfaces/user";
 import { create, findOne, findOneAndUpdate } from "./index";
 
-export const login = async (userInfo: LoginInterface) => {
+export const login = async (email: string) => {
   try {
-    console.log("login");
+    const findOneByEmail = await findOne(User, {
+      email: email,
+    });
+    if (findOneByEmail === null) {
+      return null;
+    } else {
+      return findOneByEmail;
+    }
   } catch (error) {
     console.error(`Failed to save document: ${error}`);
     throw new Error(`Failed to save document: ${error}`);
@@ -18,6 +25,15 @@ export const login = async (userInfo: LoginInterface) => {
 
 export const createUser = async (userInfo: CreateUserInterface) => {
   try {
+    const findOneByEmail: object | null = await findOne(User, {
+      email: userInfo.email,
+    });
+    const findOneByUsername: object | null = await findOne(User, {
+      username: userInfo.username,
+    });
+    if (findOneByEmail !== null || findOneByUsername !== null) {
+      return null;
+    }
     const createUserReponse = await create(User, userInfo);
     return createUserReponse;
   } catch (error) {

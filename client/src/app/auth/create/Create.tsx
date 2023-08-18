@@ -10,6 +10,7 @@ import ErrorMessages from "../../../components/auth/ErrorMessages";
 import Link from "next/link";
 
 const Create = () => {
+  const FAILED = "Failed to create your account";
   const [username, , handleUsername, resetUsername] = useInput("");
   const [email, , handleEmail, resetEmail] = useInput("");
   const [password, , handlePassword, resetPassword] = useInput("");
@@ -41,21 +42,24 @@ const Create = () => {
         httpMethod: POST,
       });
       if (apiResponse.status === 200) {
-        if (apiResponse.data.pass) {
+        console.log(apiResponse);
+        if ("errorMesage" in apiResponse) {
+          setError([apiResponse.errorMesage]);
+        } else {
           resetUsername();
           resetEmail();
           resetPassword();
           resetValidation();
           push("/");
-        } else {
-          setError(["Currently not available. Please try later"]);
         }
       } else {
-        setError([apiResponse.data.message]);
+        console.log(apiResponse);
+
+        setError([FAILED + "Please try later."]);
       }
     } catch (error) {
-      console.error(`Failed to reset your password: ${error}`);
-      throw new Error(`Failed to reset your password: ${error}`);
+      console.error(FAILED + error);
+      throw new Error(FAILED + error);
     }
   };
   return (
@@ -118,10 +122,10 @@ const Create = () => {
             >
               Register
             </button>
-            <div className="mt-4">
-              <ErrorMessages errors={errors} />
-            </div>
           </form>
+          <div className="mt-4">
+            <ErrorMessages errors={errors} />
+          </div>
           <div className="mt-4 w-full">
             <Link
               className="flex justify-center text-blue-600 visited:text-blue-600 hover:text-purple-800"

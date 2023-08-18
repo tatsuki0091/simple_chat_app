@@ -31,6 +31,7 @@ const Login = () => {
         url: "/user/login",
         httpMethod: POST,
       });
+      console.log(apiResponse);
       if (apiResponse.status === 200) {
         if (apiResponse.data.pass) {
           resetEmail();
@@ -90,10 +91,10 @@ const Login = () => {
             >
               Login
             </button>
-            <div className="mt-4">
-              <ErrorMessages errors={errors} />
-            </div>
           </form>
+          <div className="mt-4">
+            <ErrorMessages errors={errors} />
+          </div>
           <div className="mt-4 w-full">
             <Link
               className="flex justify-center text-blue-600 visited:text-blue-600 hover:text-purple-800"

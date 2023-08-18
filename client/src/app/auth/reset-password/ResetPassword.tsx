@@ -77,10 +77,10 @@ const ResetPassword = () => {
             >
               Reset Password
             </button>
-            <div className="mt-4">
-              <ErrorMessages errors={errors} />
-            </div>
           </form>
+          <div className="mt-4">
+            <ErrorMessages errors={errors} />
+          </div>
           <div className="mt-4 w-full">
             <Link
               className="flex justify-center text-blue-600 visited:text-blue-600 hover:text-purple-800"

@@ -18,18 +18,16 @@ export const encryptPasswordGenerator = async (
   }
 };
 
-export const assertPassword = async (
-  nonHashedPassword: string
-): Promise<string> => {
+export const assertPassword = (
+  nonHashedPassword: string,
+  hashedPassword: string
+): Promise<boolean> => {
   try {
-    const saltRounds = SALT_ROUNDS;
-    console.log(nonHashedPassword);
-    const encryptPassword = await bcrypt
-      .hash(nonHashedPassword, saltRounds)
-      .then((hashedPassword) => {
-        return hashedPassword; // notice that all of these methods are asynchronous!
-      });
-    return encryptPassword;
+    const compareResult: Promise<boolean> = bcrypt.compare(
+      nonHashedPassword,
+      hashedPassword
+    );
+    return compareResult;
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to save document: ${error}`);
