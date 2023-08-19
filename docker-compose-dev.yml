@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     image: simple-chat-app-server
     container_name: simple_chat_app_server
-    command: yarn
+    command: yarn install
     volumes:
       - ./server/:/usr/src/app
       - /usr/src/app/node_modules
@@ -23,14 +23,14 @@ services:
   mongo:
     image: mongo:latest
     # environment:  // If Mongo Authorization is need to be enabled
-    # MONGO_INITDB_ROOT_USERNAME: root
-    # MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    MONGO_INITDB_ROOT_USERNAME: root
+    MONGO_INITDB_ROOT_PASSWORD: rootpassword
     volumes:
       - data-volume:/data/db
     ports:
-      - "28017:28017"
-    networks:
-      - app-network
+      - "27017:27017"
+    # networks:
+    #   - app-network
   client:
     build:
       context: ./client

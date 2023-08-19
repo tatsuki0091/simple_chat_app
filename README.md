@@ -95,9 +95,16 @@ const cert = fs.readFileSync("localhost.pem", "utf-8");
 Execute
 
 ```
-docker compose up
+docker-compose up --build
+```
+
+When you wanna dump your docker container
+Execute
+
+```
+docker-compose down
 ```
 
 Reference Link
-UI/UX chat
+UI/UX chat:
 https://devsenv.com/tutorials/how-to-design-a-beautiful-messenger-application-chat-ui-using-tailwind-css
