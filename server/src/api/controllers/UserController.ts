@@ -9,7 +9,7 @@ import {
   resetPassword as resetPasswordService,
   login as loginUserService,
 } from "../services/UserService";
-import { encryptPasswordGenerator } from "../helpers/auth";
+import { encryptPasswordGenerator, assertPassword } from "../helpers/auth";
 import { RESET_PASSWORD_LENGTH, BASE_CHAR } from "../constants/auth";
 import { mailInstance } from "../helpers/mail";
 import {
@@ -18,17 +18,36 @@ import {
   FAILED_EMAIL,
 } from "../constants/mail";
 
+
+
+
 export const login: RequestHandler = async (req, res) => {
-  // Encrypt password
-  const encryptPassword: string = await encryptPasswordGenerator(
-    req.body.password
-  );
   const loginInfo: LoginInterface = {
     email: req.body.email,
-    password: encryptPassword,
   };
-  const createResult = await loginUserService(loginInfo);
-  res.json(createResult);
+  try {
+    // Fetch the user data
+    const loginResult = await loginUserService(loginInfo);
+    if (loginResult !== null) {
+      // Check the password is correct
+      const assertPasswordResult: Boolean = await assertPassword(req.body.password, loginResult.password)
+      console.log('------------------')
+
+      if (assertPasswordResult) {
+        console.log(assertPasswordResult)
+        req.session.username = loginResult.username;
+        req.session._id = loginResult._id;
+        req.session.created = new Date;
+        console.log(req.session)
+        res.json(loginResult)
+      }
+    }
+  } catch (e) {
+    res.json({ pass: false, errors: e })
+  }
+
+
+
 };
 
 export const createUser: RequestHandler = async (req, res) => {

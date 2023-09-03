@@ -1,3 +1,3 @@
-// import { User } from "../routes";
+import User from "./User"
 
-// export const userRoute = User;
+export const userRoute = User;

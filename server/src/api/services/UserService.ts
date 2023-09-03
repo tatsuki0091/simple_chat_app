@@ -9,7 +9,9 @@ import { create, findOne, findOneAndUpdate } from "./index";
 
 export const login = async (userInfo: LoginInterface) => {
   try {
-    console.log("login");
+    const loginUserReponse = await findOne(User, userInfo);
+    console.log(loginUserReponse)
+    return loginUserReponse;
   } catch (error) {
     console.error(`Failed to save document: ${error}`);
     throw new Error(`Failed to save document: ${error}`);

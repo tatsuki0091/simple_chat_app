@@ -29,6 +29,9 @@ const Create = () => {
       setError([...checkErrors]);
       return;
     }
+    console.log(username)
+    console.log(email)
+    console.log(password)
     try {
       const apiResponse = await useForm({
         values: {
@@ -41,15 +44,11 @@ const Create = () => {
         httpMethod: POST,
       });
       if (apiResponse.status === 200) {
-        if (apiResponse.data.pass) {
-          resetUsername();
-          resetEmail();
-          resetPassword();
-          resetValidation();
-          push("/");
-        } else {
-          setError(["Currently not available. Please try later"]);
-        }
+        resetUsername();
+        resetEmail();
+        resetPassword();
+        resetValidation();
+        push("/");
       } else {
         setError([apiResponse.data.message]);
       }
@@ -72,7 +71,7 @@ const Create = () => {
                 Username
               </label>
               <input
-                className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
+                className="bg-white focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
                 id="username"
                 type="text"
                 placeholder="Username"
@@ -88,7 +87,7 @@ const Create = () => {
                 Email Address
               </label>
               <input
-                className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
+                className="bg-white focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
                 id="username"
                 type="text"
                 placeholder="Email Address"
@@ -104,7 +103,7 @@ const Create = () => {
                 Password
               </label>
               <input
-                className="focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
+                className="bg-white focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
                 id="password"
                 type="password"
                 value={password}

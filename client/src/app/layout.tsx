@@ -1,4 +1,5 @@
 import "./globals.css";
+import { GlobalStateProvider } from '../components/context/GlobalState';
 
 export default function RootLayout({
   children,
@@ -13,7 +14,8 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}</body>
+      <body>
+        <GlobalStateProvider>{children}</GlobalStateProvider></body>
     </html>
   );
 }
