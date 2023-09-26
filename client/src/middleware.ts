@@ -47,9 +47,6 @@ export async function middleware(request: NextRequest, context: NextApiResponse)
     }
 
   }
-  console.log('---------')
-  console.log(jsonValue)
-
 
   if (jsonValue === null) {
     return NextResponse.redirect(new URL('/auth/login', request.url))

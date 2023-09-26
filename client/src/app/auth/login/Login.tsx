@@ -36,7 +36,6 @@ const Login = () => {
       if (apiResponse.status === 200) {
         // Set a cookie for 30 mins
         Cookies.set('session', JSON.stringify(apiResponse.data), { expires: 1 / 24 });
-        console.log(Cookies.get())
         resetEmail();
         resetPassword();
         resetValidation();

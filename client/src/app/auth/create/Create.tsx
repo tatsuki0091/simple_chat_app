@@ -29,9 +29,7 @@ const Create = () => {
       setError([...checkErrors]);
       return;
     }
-    console.log(username)
-    console.log(email)
-    console.log(password)
+
     try {
       const apiResponse = await useForm({
         values: {

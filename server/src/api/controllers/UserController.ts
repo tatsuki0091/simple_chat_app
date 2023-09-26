@@ -34,7 +34,6 @@ export const login: RequestHandler = async (req, res) => {
         req.session.username = loginResult.username;
         req.session._id = loginResult._id;
         req.session.created = new Date;
-        console.log(req.session)
         res.json(loginResult)
       }
     }
