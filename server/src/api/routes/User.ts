@@ -6,8 +6,8 @@ import {
 } from "../controllers/UserController";
 const router = express.Router();
 
-router.patch("/login", login);
-router.post("/create", createUser);
-router.patch("/reset-password", resetPassword);
+router.post("/user/login", login);
+router.post("/user/create", createUser);
+router.patch("/user/reset-password", resetPassword);
 
 export default router;

@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 export interface CreateUser {
   username: string;
   email: string;
@@ -13,5 +15,4 @@ export interface ResetPassword {
 
 export interface Login {
   email: string;
-  password: string;
 }

@@ -9,6 +9,8 @@ import loginValidateForm from "../../../validations/auth/login";
 import useValidation from "../../../hooks/useValidation";
 import ErrorMessages from "../../../components/auth/ErrorMessages";
 import Link from "next/link";
+import Cookies from 'js-cookie';
+
 
 const Login = () => {
   const [email, , handleEmail, resetEmail] = useInput("");
@@ -32,18 +34,14 @@ const Login = () => {
         httpMethod: POST,
       });
       if (apiResponse.status === 200) {
-        if (apiResponse.data.pass) {
-          resetEmail();
-          resetPassword();
-          resetValidation();
-          push("/");
-        } else {
-          setError([
-            "Currently not available to reset password. Please try later",
-          ]);
-        }
+        // Set a cookie for 30 mins
+        Cookies.set('session', JSON.stringify(apiResponse.data), { expires: 1 / 24 });
+        resetEmail();
+        resetPassword();
+        resetValidation();
+        push("/");
       } else {
-        setError((prevArray) => [...prevArray, ""]);
+        setError((prevArray) => [...prevArray, "Not able to login. Please try later"]);
       }
     } catch (error) {
       console.error(`Failed to reset your password: ${error}`);
@@ -63,7 +61,7 @@ const Login = () => {
               Email Address
             </label>
             <input
-              className="focus:shadow-outline mb-4 w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
+              className="bg-white focus:shadow-outline mb-4 w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
               id="username"
               type="text"
               placeholder="Email Address"
@@ -77,7 +75,7 @@ const Login = () => {
               Password
             </label>
             <input
-              className="focus:shadow-outline mb-4 w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
+              className="bg-white focus:shadow-outline mb-4 w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 focus:outline-none"
               id="password"
               type="password"
               value={password}
@@ -96,7 +94,7 @@ const Login = () => {
           </form>
           <div className="mt-4 w-full">
             <Link
-              className="flex justify-center text-blue-600 visited:text-blue-600 hover:text-purple-800"
+              className="flex justify-center text-blue-600 visited:text-blue-600 hover:text-purple-800 "
               href="/auth/reset-password"
             >
               Reset Password

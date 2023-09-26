@@ -1,6 +1,23 @@
-import React from "react";
-
+"use client";
+import { useEffect, useState } from 'react'
+import { useForm } from "../../hooks/useForm";
+import Cookies from 'js-cookie';
 const Chat = () => {
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const apiResponse = await useForm({
+  //       values: {
+
+  //       },
+  //       url: "/session",
+  //       httpMethod: 'get',
+  //     });
+  //     console.log(apiResponse)
+  //   }
+  //   console.log(fetchData())
+
+
+  // }, [])
   return (
     <>
       <div className="h-screen overflow-hidden bg-white p-4">
