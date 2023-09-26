@@ -9,6 +9,8 @@ import loginValidateForm from "../../../validations/auth/login";
 import useValidation from "../../../hooks/useValidation";
 import ErrorMessages from "../../../components/auth/ErrorMessages";
 import Link from "next/link";
+import Cookies from 'js-cookie';
+
 
 const Login = () => {
   const [email, , handleEmail, resetEmail] = useInput("");
@@ -31,8 +33,10 @@ const Login = () => {
         url: "/user/login",
         httpMethod: POST,
       });
-      console.log(apiResponse)
       if (apiResponse.status === 200) {
+        // Set a cookie for 30 mins
+        Cookies.set('session', JSON.stringify(apiResponse.data), { expires: 1 / 24 });
+        console.log(Cookies.get())
         resetEmail();
         resetPassword();
         resetValidation();

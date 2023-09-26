@@ -19,8 +19,6 @@ import {
 } from "../constants/mail";
 
 
-
-
 export const login: RequestHandler = async (req, res) => {
   const loginInfo: LoginInterface = {
     email: req.body.email,
@@ -31,10 +29,8 @@ export const login: RequestHandler = async (req, res) => {
     if (loginResult !== null) {
       // Check the password is correct
       const assertPasswordResult: Boolean = await assertPassword(req.body.password, loginResult.password)
-      console.log('------------------')
-
       if (assertPasswordResult) {
-        console.log(assertPasswordResult)
+
         req.session.username = loginResult.username;
         req.session._id = loginResult._id;
         req.session.created = new Date;
